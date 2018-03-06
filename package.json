@@ -2,7 +2,7 @@
   "name": "agora-rtc-sdk",
   "version": "2.1.0",
   "description": "AgoraRTC SDK for web",
-  "main": "index.js",
+  "main": "AgoraRTCSDK.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
