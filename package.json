@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AgoraIO/archive.git"
+    "url": "git+https://github.com/AgoraIO/web-archive.git"
   },
   "keywords": [
     "Agora",
@@ -18,7 +18,7 @@
   "author": "agora",
   "license": "SEE LICENSE IN LICENSE.md",
   "bugs": {
-    "url": "https://github.com/AgoraIO/archive/issues"
+    "url": "https://github.com/AgoraIO/web-archive/issues"
   },
-  "homepage": "https://github.com/AgoraIO/archive#readme"
+  "homepage": "https://github.com/AgoraIO/web-archive#readme"
 }
