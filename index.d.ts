@@ -155,7 +155,10 @@ declare namespace AgoraRTC {
      * });
      * ```
      */
-    function getDevices(callback: (devices: MediaDeviceInfo[]) => void): void;
+    function getDevices(
+        callback: (devices: MediaDeviceInfo[]) => void,
+        errCallback?: (err: string) => void
+    ): void;
     /**
      * Media Stream
      *
