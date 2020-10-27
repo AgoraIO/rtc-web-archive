@@ -5,14 +5,13 @@
  *
  * Other methods of the AgoraRTC object check for system requirements and set up error logging.
  */
-export = AgoraRTC;
-export as namespace AgoraRTC;
-
+export = AgoraRTC; 
+export as namespace AgoraRTC
 declare namespace AgoraRTC {
     /**
      * Areas of connection.
      */
-    export enum AREAS {
+    enum AREAS {
         /**
          * China.
          */
@@ -255,7 +254,7 @@ declare namespace AgoraRTC {
      *
      * In most cases, you can prompt the user to resume the playback ([[Stream.resume]]) by a user gesture except when the {@link status} is "aborted".
      */
-    export interface StreamPlayError {
+    interface StreamPlayError {
         /**
          * The status of the player:
          * - "aborted": The player is removed before the stream is played successfully.
@@ -281,7 +280,7 @@ declare namespace AgoraRTC {
      *
      * Depending on the OS, browser, and camera, the actual resolution, frame rate, and bitrate might be different from the set values.
     */
-    export interface VideoEncoderConfiguration{
+    interface VideoEncoderConfiguration{
         /**
          * Resolution of the video.
          *
@@ -580,7 +579,7 @@ declare namespace AgoraRTC {
      * **Since**
      * <br>&emsp;&emsp;&emsp;*3.0.0*
      */
-    export interface TranscodingWatermark {
+    interface TranscodingWatermark {
         /**
          * The HTTP/HTTPS URL address of the image on the broadcasting video.
          *
@@ -703,7 +702,7 @@ declare namespace AgoraRTC {
     /**
      * Configurations for a TURN server in {@link setTurnServer} or {@link createClient}.
      */
-     export interface TurnServer {
+     interface TurnServer {
         /** Your TURN Server URL address. ASCII characters only, and the string length must be greater than 0 and less than 256 bytes. */
         turnServerURL: string;
         /** Your TURN Server username. ASCII characters only, and the string length must be greater than 0 and less than 256 bytes. */
@@ -4310,7 +4309,7 @@ declare namespace AgoraRTC {
      *
      * Use this interface to set the media stream relay when calling {@link startChannelMediaRelay} or {@link updateChannelMediaRelay}.
      */
-    export interface ChannelMediaRelayConfiguration {
+    interface ChannelMediaRelayConfiguration {
         /**
          * Sets the information of the source channel.
          *
@@ -4390,7 +4389,7 @@ declare namespace AgoraRTC {
      * | 12       | RELAY_ALREADY_START             | The relay has already started. Possibly caused by calling {@link startChannelMediaRelay} repeatedly, or calling {@link startChannelMediaRelay} before {@link stopChannelMediaRelay} succeeds. |
      * | 13       | RELAY_NOT_START                 | The relay has not started. Possibly caused by calling {@link updateChannelMediaRelay} before {@link startChannelMediaRelay} succeeds. |
      */
-    export class ChannelMediaError {
+    class ChannelMediaError {
         /**
          * Additional information.
          */
@@ -4410,5 +4409,5 @@ declare namespace AgoraRTC {
      *
      * @example `AgoraRTC.VERSION`
      */
-    export const VERSION: string;
+    const VERSION: string;
 }
