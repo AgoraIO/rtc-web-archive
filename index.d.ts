@@ -90,16 +90,16 @@ declare namespace AgoraRTC {
     /**
      * Gets the supported codec of the web browser
      *
-     * This method returns the codecs supported by both the Agora Web SDK and the web browser. The Agora Web SDK supports VP8 and H.264 for video, and OPUS for audio.
+     * This method returns the codecs supported by both the Agora Web SDK and the web browser. The Agora Web SDK supports VP8, VP9 and H.264 for video, and OPUS for audio.
      *
      * **Note**
      *
      * - This method supports all web browsers. For web browsers that do not support WebRTC or are not recognized, the returned codec list is empty.
      * - The returned codec list is based on the [SDP](https://tools.ietf.org/html/rfc4566) used by the web browser and for reference only.
-     * - Some Android phones might claim to support H.264 but have problems in communicating with other platforms using H.264. In this case, we recommend using the VP8 codec.
+     * - Some Android phones might claim to support H.264 but have problems in communicating with other platforms using H.264. In this case, we recommend using the VP8 or VP9 codec.
      *
      * @returns  Returns a `Promise` object. In the `.then(function(result){})` callback, `result` has the following properties:
-     * - `video`: array, the supported video codecs. The array might include `"H264"` and `"VP8"`, or be empty.
+     * - `video`: array, the supported video codecs. The array might include `"H264"`, `"VP8"` and `"VP9"`, or be empty.
      * - `audio`: array, the supported audio codecs. The array might include `"OPUS"`, or be empty.
      *
      * @example
@@ -132,7 +132,7 @@ declare namespace AgoraRTC {
          * Otherwise the method gets the supported encoding formats as the sender. In most cases, the supported decoding and encoding formats are the same.
          */
         stream: MediaStream
-    }): Promise<{ video: Array<"VP8" | "H264">, audio: Array<"OPUS"> }>;
+    }): Promise<{ video: Array<"VP8" | "VP9" | "H264">, audio: Array<"OPUS"> }>;
     /**
      * Enumerates the media devices
      *
@@ -142,7 +142,8 @@ declare namespace AgoraRTC {
      *
      * **Note**
      *
-     * On Chrome 81 or later, Safari, and Firefox, device IDs are only available after the user has granted permissions to use the media device. See [Why can't I get device ID on Chrome 81?](https://docs.agora.io/en/faq/empty_deviceId)
+     * - On Chrome 81 or later, Safari, and Firefox, device IDs are only available after the user has granted permissions to use the media device. See [Why can't I get device ID on Chrome 81?](https://docs.agora.io/en/faq/empty_deviceId)
+     * - You cannot get the `"audioinput"` device on Firefox and Safari.
      *
      * @example
      * **Sample code**
@@ -828,6 +829,7 @@ declare namespace AgoraRTC {
         /**
          * The codec the Web browser uses for encoding.
          * - `"vp8"`: Sets the browser to use VP8 for encoding.
+         * - `"vp9"`: Sets the browser to use VP9 for encoding.
          * - `"h264"`: Sets the browser to use H.264 for encoding.
          *
          * **Note**
@@ -835,7 +837,7 @@ declare namespace AgoraRTC {
          * - Safari 12.1 or earlier does not support the VP8 codec.
          * - Codec support on mobile devices is a bit complex, see [Use Agora Web SDK on Mobile Devices](https://docs.agora.io/en/faq/web_on_mobile) for details.
          */
-        codec: "vp8" | "h264";
+        codec: "vp8" | "vp9" | "h264";
         /**
          * Your HTTP proxy server domain name.
          *
@@ -2809,21 +2811,50 @@ declare namespace AgoraRTC {
         /**
          * Occurs when the live streaming starts.
          */
-        on(event: "liveStreamingStarted", callback: (evt: any) => void): void;
+        on(event: "liveStreamingStarted", callback: (evt: {
+            type: "liveStreamingStarted",
+            /**
+             * The CDN streaming URL.
+             */
+            url: string }) => void): void;
         /**
          * Occurs when the live streaming fails.
          */
-        on(event: "liveStreamingFailed", callback: (evt: any) => void): void;
+        on(event: "liveStreamingFailed", callback: (evt: {
+            type: "liveStreamingFailed",
+            /**
+             * The CDN streaming URL.
+             */
+            url?: string,
+            /**
+             * **Note**: The following reasons only apply to the Web SDK 3.2.0 or later:
+             *
+             * The reasons:
+             * - `LIVE_STREAMING_INVALID_ARGUMENT`: Invalid argument.
+             * - `LIVE_STREAMING_INTERNAL_SERVER_ERROR`: An error occurs in Agora's streaming server.
+             * - `LIVE_STREAMING_PUBLISH_STREAM_NOT_AUTHORIZED`: The URL is occupied.
+             * - `LIVE_STREAMING_TRANSCODING_NOT_SUPPORTED`: Sets the transcoding parameters when the transcoding is not enabled.
+             * - `LIVE_STREAMING_CDN_ERROR`: An error occurs in the CDN.
+             * - `LIVE_STREAMING_TASK_CONFLICT`: A CDN streaming task with the same URL is running.
+             * - `INVALID_OPERATION`: Invalid operation. If, for example, you do not call {@link Client.setLiveTransoding} to configure the live transcoding parameters before calling {@link Client.startLiveStreaming}, the SDK returns this error.
+             * - `WS_ABORT`: The CDN live streaming task is aborted due to WebSocket disconnection.
+             */
+            reason: string }) => void): void;
         /**
          * Occurs when the live streaming stops.
          */
-        on(event: "liveStreamingStopped", callback: (evt: any) => void): void;
+        on(event: "liveStreamingStopped", callback: (evt: {
+            type: "liveStreamingStopped",
+            /**
+             * The CDN streaming URL.
+             */
+            url: string }) => void): void;
         /**
          * Occurs when the live transcoding setting is updated.
          *
          * The SDK triggers this callback when the live transcoding setting is updated by calling the {@link setLiveTranscoding} method.
          */
-        on(event: "liveTranscodingUpdated", callback: (evt: any) => void): void;
+        on(event: "liveTranscodingUpdated", callback: (evt: { type: "liveTranscodingUpdated" }) => void): void;
         /**
          * Occurs when the injected online media stream's status is updated.
          */
@@ -3828,11 +3859,8 @@ declare namespace AgoraRTC {
          *
          * This method must be called before joining the channel or after leaving the channel.
          *
-         * For the extra settings required for using the cloud proxy service and introduction to cloud proxy mode, see [Use Cloud Proxy](https://docs.agora.io/en/Interactive%20Broadcast/cloud_proxy_web?platform=Web).
+         * For the extra settings required for using the cloud proxy service, see [Use Cloud Proxy](https://docs.agora.io/en/Interactive%20Broadcast/cloud_proxy_web?platform=Web).
          *
-         * @param mode Cloud proxy mode.
-         *             - 1: (Default) Mode one.
-         *             - 3: Mode three.
          */
         startProxyServer(type?: number): void;
          /**
