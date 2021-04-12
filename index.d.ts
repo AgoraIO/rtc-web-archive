@@ -2856,6 +2856,8 @@ declare namespace AgoraRTC {
          */
         on(event: "liveTranscodingUpdated", callback: (evt: { type: "liveTranscodingUpdated" }) => void): void;
         /**
+         * **Note**: Agora will soon stop the service for injecting online media streams on the client. If you have not implemented this service, Agora recommends that you do not use it.
+         *
          * Occurs when the injected online media stream's status is updated.
          */
         on(event: "streamInjectedStatus", callback: (evt: any) => void): void;
@@ -3826,6 +3828,8 @@ declare namespace AgoraRTC {
          */
         stopLiveStreaming(url: string): void;
         /**
+         * **Note**: Agora will soon stop the service for injecting online media streams on the client. If you have not implemented this service, Agora recommends that you do not use it.
+         *
          * Injects an online media stream to a live interactive streaming channel.
          *
          * If this method is called successfully, the server pulls the voice or video stream and injects it into a live channel. This is applicable to scenarios where all of the audience members in the channel can watch a live show and interact with each other. See [Inject an Online Media Stream](https://docs.agora.io/en/Interactive%20Broadcast/inject_stream_web?platform=Web) for details.
@@ -3848,6 +3852,8 @@ declare namespace AgoraRTC {
          */
         addInjectStreamUrl(url: string, config: InjectStreamConfig): void;
         /**
+         * **Note**: Agora will soon stop the service for injecting online media streams on the client. If you have not implemented this service, Agora recommends that you do not use it.
+         *
          * Removes the Injected Stream
          *
          * This method removes the HTTP/HTTPS URL address (added by [[addInjectStreamUrl]]) from the live interactive streaming.
@@ -3933,13 +3939,15 @@ declare namespace AgoraRTC {
          * @param encryptionMode The encryption mode:
          *
          * - `"aes-128-xts"`: 128-bit AES encryption, XTS mode.
-         * - `"aes-256-xts"`: 128-bit AES encryption, ECB mode.
-         * - `"aes-128-ecb"`: 256-bit AES encryption, XTS mode.
+         * - `"aes-256-xts"`: 256-bit AES encryption, XTS mode.
+         * - `"aes-128-ecb"`: 128-bit AES encryption, ECB mode.
+         * - `"aes-128-gcm"`: 128-bit AES encryption, GCM mode.
+         * - `"aes-256-gcm"`: 256-bit AES encryption, GCM mode.
          * - `"sm4-128-ecb"`: 128-bit SM4 encryption, ECB mode.
          * - `"none"`: No encryption.
          */
         setEncryptionMode(
-            encryptionMode: "aes-128-xts" | "aes-256-xts" | "aes-128-ecb" | "sm4-128-ecb" | "none"
+            encryptionMode: "aes-128-xts" | "aes-256-xts" | "aes-128-ecb" | "sm4-128-ecb" | "aes-128-gcm" | "aes-256-gcm" | "none"
         ): void;
         /**
          * Renews the Token
