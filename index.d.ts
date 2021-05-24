@@ -5,7 +5,8 @@
  *
  * Other methods of the AgoraRTC object check for system requirements and set up error logging.
  */
-export = AgoraRTC; 
+
+export = AgoraRTC;
 export as namespace AgoraRTC
 declare namespace AgoraRTC {
     /**
@@ -305,7 +306,7 @@ declare namespace AgoraRTC {
             height: number,
         },
         /**
-         * The video encoding frame rate (fps). The value range is [1, 10000]. 
+         * The video encoding frame rate (fps). The value range is [1, 10000].
          *
          * Set this parameter as a value range. The minimum is **the expected frame rate**, and the maximum is the upper limit of the adjusted frame rate when the browser does not support the expected frame rate.
          *
@@ -855,7 +856,7 @@ declare namespace AgoraRTC {
          * TURN server configurations.
          *
          * An array of the {@link TurnServer} objects. You can pass configurations of multiple TURN servers to this property.
-         * 
+         *
          * You can also use cloud proxy by {@link startProxyServer}. See [Use Cloud Proxy](https://docs.agora.io/en/Agora%20Platform/cloud_proxy_web?platform=Web) for details.
          */
         turnServer?: TurnServer[];
@@ -886,6 +887,7 @@ declare namespace AgoraRTC {
          * ```
          */
         areaCode?: AREAS[];
+        excludedArea?: AREAS;
     }
 
     /**
@@ -1178,11 +1180,11 @@ declare namespace AgoraRTC {
         /**
          * **Since**
          * <br>&emsp;&emsp;&emsp;*3.2.0*
-         * 
+         *
          * Sets the video transmission optimization strategy:
          * - `"motion"`: Prioritizes video smoothness. In most cases, the SDK does not reduce the frame rate, but may reduce the sending resolution.
          * - `"detail"`: Prioritizes clarity. In most cases, the SDK does not reduce the sending resolution, but may reduce the frame rate.
-         * 
+         *
          * If you leave this property empty, the SDK uses the default transmission optimization strategy:
          * - For a screen-sharing video stream (setting the `screen` property as `true` when calling {@link createStream}, the default transmission optimization strategy is to prioritizes clarity.
          * - For the other types of video streams, the SDK may reduce the frame rate or the sending resolution in poor network conditions.
@@ -2590,7 +2592,7 @@ declare namespace AgoraRTC {
          *     console.log("local stream unpublished");
          *     //……
          * })
-         * 
+         *
          * ```
          */
         on(event: "stream-unpublished", callback: (evt: any) => void): void;
@@ -3097,7 +3099,7 @@ declare namespace AgoraRTC {
          * ```
          *
          */
-        on(event: "connected", callback: () => void): void;                                                
+        on(event: "connected", callback: () => void): void;
         /**
          * Reports the network quality of the local user once every two seconds.
          *
@@ -3943,11 +3945,14 @@ declare namespace AgoraRTC {
          * - `"aes-128-ecb"`: 128-bit AES encryption, ECB mode.
          * - `"aes-128-gcm"`: 128-bit AES encryption, GCM mode.
          * - `"aes-256-gcm"`: 256-bit AES encryption, GCM mode.
+         * - `"aes-128-gcm2"`: 128-bit AES encryption, GCM mode, salt.
+         * - `"aes-256-gcm2"`: 256-bit AES encryption, GCM mode, salt.
          * - `"sm4-128-ecb"`: 128-bit SM4 encryption, ECB mode.
          * - `"none"`: No encryption.
          */
         setEncryptionMode(
-            encryptionMode: "aes-128-xts" | "aes-256-xts" | "aes-128-ecb" | "sm4-128-ecb" | "aes-128-gcm" | "aes-256-gcm" | "none"
+            encryptionMode: "aes-128-xts" | "aes-256-xts" | "aes-128-ecb" | "sm4-128-ecb" | "aes-128-gcm" | "aes-256-gcm" |"aes-128-gcm2" | "aes-256-gcm2" | "none",
+            salt?: string
         ): void;
         /**
          * Renews the Token
@@ -4226,7 +4231,7 @@ declare namespace AgoraRTC {
          * - This method should be called after joining the channel, and it may take at most 3 seconds to retrieve the statistics. You can call this method periodically.
          * - This method supports the Chrome browser only.
          *
-         * @param callback The callback contains the statistics of the session connection. 
+         * @param callback The callback contains the statistics of the session connection.
          *
          * @example **Sample code**
          *
