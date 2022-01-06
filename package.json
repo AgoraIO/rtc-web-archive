@@ -1,6 +1,6 @@
 {
   "name": "agora-rtc-sdk",
-  "version": "3.6.8",
+  "version": "3.6.9",
   "description": "AgoraRTC SDK for web",
   "main": "AgoraRTCSDK.min.js",
   "typings": "index.d.ts",
